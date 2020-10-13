@@ -46,7 +46,7 @@
 #define ITSDK_WITH_DRIVERS			__DISABLE								// Includes configDrivers.h
 #define ITSDK_RAM_SIZE				(20*1024)								// RAM Memory size
 #define ITSDK_EPROM_SIZE			(6*1024)								// EEPROM size
-#define ITSDK_WITH_UART				( __UART_USART1 )						// Use LPUART1 and USART2 for debug USART1 possible
+#define ITSDK_WITH_UART				( __UART_NONE /*__UART_USART1 */ )						// Use LPUART1 and USART2 for debug USART1 possible
 #define ITSDK_WITH_UART_RXIRQ		__UART_NONE								// Setup some of the UART with IRQ enabled for RX
 #define ITSDK_WITH_UART_RXIRQ_BUFSZ 32										// Size of the UART IRQ RX circular buffer (power of 2)
 #define ITSDK_WITH_RTC				__RTC_ENABLED							// The Rtc is usd in the firmware
@@ -54,9 +54,9 @@
 #define ITSDK_RTC_CLKFREQ			32768									// RTC clock source frequency
 #define ITSDK_CLK_BEST_SOURCE		__CLK_BEST_SRC_RTC						// The RTC is the most accurate clk source to ADJUST Others
 #define ITSDK_CLK_CORRECTION		1000									// correct clock with 1200 o/oo (+20%) of the ticks (used when clk_adjust = 0 or for RTC when CLK_BEST_SRC_RTC)
-#define ITSDK_WITH_ADC				__ADC_DISABLED							// Use of Adc (includes the structures)
+#define ITSDK_WITH_ADC				__ADC_DISABLE							// Use of Adc (includes the structures)
 #define ITSDK_ADC_OPTIMIZE_SIZE		__DISABLE								// When __ENABLE adc code is optimized for code size (when relevant)
-#define ITSDK_ADC1_PIN				14										// Map the channel for ADC on PIN 14 (PA0)
+#define ITSDK_ADC1_PIN				54										// Map the channel for ADC on PIN 14 (PA0)
 #define ITSDK_ADC_OVERSAMPLING		16										// Number of ADC read time before averaging
 #define ITSDK_VDD_MV				3300									// VDD value in mV
 #define ITSDK_VBAT_MIN				2000									// MIN value for VBAT in mv
@@ -117,9 +117,9 @@
 									 | __LP_HALT_I2C1					\
 								/*	 | __LP_HALT_I2C2	*/				\
 									 | __LP_HALT_SPI1					\
-									 | __LP_HALT_SPI2					\
+								/*	 | __LP_HALT_SPI2	*/				\
 									 | __LP_HALT_TIM21 					\
-									/* | __LP_HALT_ADC1 */ 					\
+								/*	 | __LP_HALT_ADC1 */  					\
 									)										// extra module to stop during low power phase
 #define ITSDK_LOWPOWER_GPIO_A_KEEP	(  __LP_GPIO_NONE \
 									 | __LP_GPIO_0  /* ILS */ \
@@ -129,11 +129,11 @@
 									 | __LP_GPIO_5 		/* BQ_GE */\
 									 | __LP_GPIO_6 		/* BQ_ALERT */\
 									 | __LP_GPIO_7 	 	/* USER_BP */\
-									 | __LP_GPIO_8	 	 /* I2C */ \
-									 | __LP_GPIO_9	 	 /* I2C */ \
-									 | __LP_GPIO_13  	/* SPI2 */\
-									 | __LP_GPIO_14   /* SPI2 */\
-									 | __LP_GPIO_15   /* SPI2 */\
+									 | __LP_GPIO_8 	 	 /* I2C */ \
+									 | __LP_GPIO_9 	 	 /* I2C */ \
+								/*	 | __LP_GPIO_13 */  	/* SPI2 */\
+								/*	 | __LP_GPIO_14 */   /* SPI2 */\
+								/*	 | __LP_GPIO_15 */   /* SPI2 */\
 									)
 #define ITSDK_LOWPOWER_GPIO_C_KEEP	(  __LP_GPIO_NONE \
 									 | __LP_GPIO_0 	/* LoRa Reset */\
@@ -166,7 +166,7 @@
 #define ITSDK_SHEDULER_TASKS		1										// Maximum number of Task (0 will deactivate scheduler code)
 #define ITSDK_STATEMACHINE_TASKS	0										// Maximum number of state machine task (0 will deactivate STM code)
 #define ITSDK_STATEMACHINE_NAMESZ	8										// Maximum size for task name (-1)
-#define ITSDK_STATEMACHINE_STATIC	__ENABLE								// The states are stored in flash memory
+#define ITSDK_STATEMACHINE_STATIC	__DISABLE								// The states are stored in flash memory
 																			// use disable or not declared for compatibility with version < 1.6
 
 // +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++

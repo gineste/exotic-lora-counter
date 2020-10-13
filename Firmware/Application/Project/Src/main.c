@@ -99,7 +99,6 @@ int main(void)
   MX_IWDG_Init();
   MX_RTC_Init();
   MX_SPI1_Init();
-  MX_SPI2_Init();
   MX_TIM21_Init();
   MX_USART1_UART_Init();
   /* USER CODE BEGIN 2 */
