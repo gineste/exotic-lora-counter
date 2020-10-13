@@ -46,7 +46,7 @@
 #define ITSDK_WITH_DRIVERS			__DISABLE								// Includes configDrivers.h
 #define ITSDK_RAM_SIZE				(20*1024)								// RAM Memory size
 #define ITSDK_EPROM_SIZE			(6*1024)								// EEPROM size
-#define ITSDK_WITH_UART				( __UART_NONE /*__UART_USART1 */ )						// Use LPUART1 and USART2 for debug USART1 possible
+#define ITSDK_WITH_UART				( __UART_USART1 )						// Use LPUART1 and USART2 for debug USART1 possible
 #define ITSDK_WITH_UART_RXIRQ		__UART_NONE								// Setup some of the UART with IRQ enabled for RX
 #define ITSDK_WITH_UART_RXIRQ_BUFSZ 32										// Size of the UART IRQ RX circular buffer (power of 2)
 #define ITSDK_WITH_RTC				__RTC_ENABLED							// The Rtc is usd in the firmware
@@ -80,9 +80,9 @@
 #define ITSDK_CORE_CLKFREQ			32000000								// Core Frequency of the chip
 #define ITSDK_WITH_EXPERIMENTAL     __DISABLE 								// Activate some experimental code under review, basically should always be __DISABLE
 
-#define ITSDK_LOGGER_CONF			LOGGER_CONFIG_DEBUGLNK_MASK									// error->info level on serial1 => USART2 (see logger.c)
+#define ITSDK_LOGGER_CONF			LOGGER_CONFIG_SERIAL1_MASK									// error->info level on serial1 => USART2 (see logger.c)
                                                                             // File | Serial1 | Serial2 | Debug
-#define ITSDK_LOGGER_WITH_SEG_RTT	__ENABLE								// enable SEGGER RTT trace driver for DEBUG interface
+#define ITSDK_LOGGER_WITH_SEG_RTT	__DISABLE								// enable SEGGER RTT trace driver for DEBUG interface
 #define ITSDK_LOGGER_MODULE			( \
 									  __LOG_MOD_NONE		  \
 									| __LOG_MOD_LOWPOWER    \
