@@ -21,7 +21,6 @@
 /* Includes ------------------------------------------------------------------*/
 #include "main.h"
 #include "i2c.h"
-#include "iwdg.h"
 #include "rtc.h"
 #include "spi.h"
 #include "tim.h"
@@ -32,6 +31,7 @@
 /* USER CODE BEGIN Includes */
 	#include <it_sdk/config.h>
 	#include <it_sdk/itsdk.h>
+	#include <it_sdk/lowpower/lowpower.h>
 
 /* USER CODE END Includes */
 
@@ -96,12 +96,13 @@ int main(void)
   /* Initialize all configured peripherals */
   MX_GPIO_Init();
   MX_I2C1_Init();
-  MX_IWDG_Init();
   MX_RTC_Init();
   MX_SPI1_Init();
   MX_TIM21_Init();
   MX_USART1_UART_Init();
   /* USER CODE BEGIN 2 */
+  lowPower_disable();
+
   itsdk_setup();
 
   /* USER CODE END 2 */

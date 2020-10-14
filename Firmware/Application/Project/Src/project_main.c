@@ -27,17 +27,35 @@
 #include <it_sdk/eeprom/securestore.h>
 #include <it_sdk/lowpower/lowpower.h>
 #include <drivers/sx1276/sx1276.h>
+#include <it_sdk/configNvm.h>
+#include <it_sdk/statemachine/statemachine.h>
+#include <it_sdk/sched/scheduler.h>
+#include <vichydro/statem/machine.h>
+
+/****************************************************************************************
+ * Variable Declarations
+ ****************************************************************************************/
+extern machine_t vichydro_stm;
 
 /****************************************************************************************
  * Public functions
  ****************************************************************************************/
+/**
+ * Process the state machine on regular basis
+ */
+void task() {
+	statem(&vichydro_stm);
+}
+
 /**
  * On Reset setup
  */
 void project_setup ()
 {
 	log_info ("Booting !!\r\n");
+	vichydro_state.lastResetCause = itsdk_getResetCause();
 	SX1276InitLowPower();
+	itdt_sched_registerSched(VICHYDRO_CONFIG_TIME_BASE_S*1000,ITSDK_SCHED_CONF_IMMEDIATE, &task);
 }
 
 /**
@@ -45,5 +63,12 @@ void project_setup ()
  */
 void project_loop ()
 {
+	/*HAL_GPIO_WritePin(LED_RED_GPIO_Port, LED_RED_Pin, GPIO_PIN_RESET);
+
+	while (itsdk_time_get_ms() % 100 == 0);
+
+	HAL_GPIO_WritePin(LED_RED_GPIO_Port, LED_RED_Pin, GPIO_PIN_SET);*/
+
+	itsdk_lorawan_loop();
 }
 

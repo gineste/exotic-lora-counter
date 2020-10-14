@@ -36,8 +36,8 @@
 #define ITSDK_VERSION				"1.6.0-master"							// SDK Version String (do not change it)
 #define ITSDK_VERSION_BYTE			0x16									//  SDK 1 Byte version corresponding to previous on (do not change it)
 
-#define ITSDK_USER_VERSION			"0.1"									// CHANGE ME - Version of your firwmare
-#define ITSDK_USER_VERSION_BYTE		0x01									// CHANGE ME - Version of your firwmare 4bits MAJOR / 4bits MINOR
+#define ITSDK_USER_VERSION			"0.2"									// CHANGE ME - Version of your firwmare
+#define ITSDK_USER_VERSION_BYTE		0x02									// CHANGE ME - Version of your firwmare 4bits MAJOR / 4bits MINOR
 																			//   You may change it anytime the NVM configuration is impacted
 
 #define ITSDK_CUBEMX_VERSION	    "1.4.2"						// Version of cube MX
@@ -74,15 +74,15 @@
 #define ITSDK_HW_TIMER1_FREQ		32000000								// Primary timer base frequency
 #define ITSDK_HW_TIMER1_MAX			65536									// Timer's counter max value ( 2^size )
 #define ITSDK_TIMER_SLOTS			5										// Maximum number of SOFT TIMER available in parallel - 0 disable SOFT TIMER code
-#define ITSDK_WITH_WDG				__WDG_IWDG								// Enable Watchdog type iWDG
-#define ITSDK_WDG_MS				16000									// WatchDog time out in ms 1 --> 28000 / 0 to disable
+#define ITSDK_WITH_WDG				__WDG_NONE								// Enable Watchdog type iWDG
+#define ITSDK_WDG_MS				0									// WatchDog time out in ms 1 --> 28000 / 0 to disable
 #define ITSDK_WDG_CLKFREQ			37000									// Watchdog clock source frequency
 #define ITSDK_CORE_CLKFREQ			32000000								// Core Frequency of the chip
 #define ITSDK_WITH_EXPERIMENTAL     __DISABLE 								// Activate some experimental code under review, basically should always be __DISABLE
 
-#define ITSDK_LOGGER_CONF			LOGGER_CONFIG_SERIAL1_MASK									// error->info level on serial1 => USART2 (see logger.c)
+#define ITSDK_LOGGER_CONF			LOGGER_CONFIG_DEBUGLNK_MASK									// error->info level on serial1 => USART2 (see logger.c)
                                                                             // File | Serial1 | Serial2 | Debug
-#define ITSDK_LOGGER_WITH_SEG_RTT	__DISABLE								// enable SEGGER RTT trace driver for DEBUG interface
+#define ITSDK_LOGGER_WITH_SEG_RTT	__ENABLE								// enable SEGGER RTT trace driver for DEBUG interface
 #define ITSDK_LOGGER_MODULE			( \
 									  __LOG_MOD_NONE		  \
 									| __LOG_MOD_LOWPOWER    \
@@ -105,14 +105,14 @@
 
 #define ITSDK_LOWPOWER_MOD			( __LOWPWR_MODE_STOP       \
 									| __LOWPWR_MODE_WAKE_RTC   \
-									| __LOWPWR_MODE_WAKE_GPIO  \
+								/*	| __LOWPWR_MODE_WAKE_GPIO */  \
 								/*	| __LOWPWR_MODE_WAKE_LPUART */\
 								/*  | __LOWPWR_MODE_WAKE_UART1 */ \
 									)										// Mode Stop + wakeup RTC + GPIO
 																			// UART WakeUp - Requires clk HSE/LSE and WakeInt Activated - low speed recommanded
 
 #define ITSDK_LOWPOWER_MINDUR_MS	5										// Under 5 ms sleep request, no need to sleep
-#define ITSDK_LOWPOWER_RTC_MS		10000										// RTC wake up
+#define ITSDK_LOWPOWER_RTC_MS		4000										// RTC wake up
 #define ITSDK_LOWPOWER_MISC_HALT    (  __LP_HALT_NONE					\
 									 | __LP_HALT_I2C1					\
 								/*	 | __LP_HALT_I2C2	*/				\
@@ -122,13 +122,13 @@
 								/*	 | __LP_HALT_ADC1 */  					\
 									)										// extra module to stop during low power phase
 #define ITSDK_LOWPOWER_GPIO_A_KEEP	(  __LP_GPIO_NONE \
-									 | __LP_GPIO_0  /* ILS */ \
-									 | __LP_GPIO_4	/* HALL */ \
+									 /*| __LP_GPIO_0*/  /* ILS */ \
+									 /*| __LP_GPIO_4*/	/* HALL */ \
 		                            )
 #define ITSDK_LOWPOWER_GPIO_B_KEEP	(  __LP_GPIO_NONE \
-									 | __LP_GPIO_5 		/* BQ_GE */\
-									 | __LP_GPIO_6 		/* BQ_ALERT */\
-									 | __LP_GPIO_7 	 	/* USER_BP */\
+									 /*| __LP_GPIO_5 */ 		/* BQ_GE */\
+									 /*| __LP_GPIO_6 */ 		/* BQ_ALERT */\
+									/* | __LP_GPIO_7 */ 	 	/* USER_BP */\
 									 | __LP_GPIO_8 	 	 /* I2C */ \
 									 | __LP_GPIO_9 	 	 /* I2C */ \
 								/*	 | __LP_GPIO_13 */  	/* SPI2 */\
@@ -146,12 +146,12 @@
 
 																			// GPIO Wake-Up => the pin should also be in the _KEEP list
 #define ITSDK_LOWPOWER_GPIO_A_WAKE	(__LP_GPIO_NONE \
-												| __LP_GPIO_0  /* ILS */ \
-												| __LP_GPIO_4	/* HALL */ \
+												/*| __LP_GPIO_0 */  /* ILS */ \
+												/*| __LP_GPIO_4 */	/* HALL */ \
 												)						// During Low Power mode, the GPIO bank A can be used for wakeup
 #define ITSDK_LOWPOWER_GPIO_B_WAKE	( __LP_GPIO_NONE  \
-									 | __LP_GPIO_6 		/* BQ_ALERT */\
-									 | __LP_GPIO_7 	 	/* USER_BP */\
+									/* | __LP_GPIO_6 */ 		/* BQ_ALERT */\
+									/* | __LP_GPIO_7 */ 	 	/* USER_BP */\
 									)										// During Low Power mode, the GPIO bank B can be used for wakeup
 #define ITSDK_LOWPOWER_GPIO_C_WAKE	( __LP_GPIO_NONE \
 									)										// During Low Power mode, the GPIO bank C can be used for wakeup
@@ -164,7 +164,7 @@
 // +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
 #define ITSDK_SHEDULER_TASKS		1										// Maximum number of Task (0 will deactivate scheduler code)
-#define ITSDK_STATEMACHINE_TASKS	0										// Maximum number of state machine task (0 will deactivate STM code)
+#define ITSDK_STATEMACHINE_TASKS	10										// Maximum number of state machine task (0 will deactivate STM code)
 #define ITSDK_STATEMACHINE_NAMESZ	8										// Maximum size for task name (-1)
 #define ITSDK_STATEMACHINE_STATIC	__DISABLE								// The states are stored in flash memory
 																			// use disable or not declared for compatibility with version < 1.6
@@ -178,7 +178,7 @@
 																			// MEMORY = The config is reinit at boottime but store in memory
 																			// STATIC = No config use in memory, only static settings
 
-#define ITSDK_WITH_CONFIGURATION_APP	__DISABLE							// The application have a configuration stored in NVM
+#define ITSDK_WITH_CONFIGURATION_APP	__ENABLE							// The application have a configuration stored in NVM
 																			// This is enable the app specific part of NVM config
 																			// The file it_sdk/configNvm.h will be included and
 																			//  contains the application specific configuration
@@ -201,7 +201,7 @@
 #define ITSDK_CONSOLE_SERIAL		__UART_CUSTOM							// Serial port to be used for console
 #define ITSDK_CONSOLE_LINEBUFFER	40										// Max Size of a line in the console. Dropped after.
 #define ITSDK_CONSOLE_EXPIRE_S		300										// After 300 Seconds the console will lock automatically
-#define ITSKD_CONSOLE_COPYRIGHT		"(c) 2020 Exotic Systems\r\n"				// CHANGE ME : copyright string
+#define ITSKD_CONSOLE_COPYRIGHT		"(c) 2020 Exotic Systems\r\n"
 
 // +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 // Communication layer
