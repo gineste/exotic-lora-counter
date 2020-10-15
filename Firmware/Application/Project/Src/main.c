@@ -99,8 +99,6 @@ int main(void)
   MX_TIM21_Init();
   MX_USART1_UART_Init();
   /* USER CODE BEGIN 2 */
-  lowPower_disable();
-
   itsdk_setup();
 
   /* USER CODE END 2 */

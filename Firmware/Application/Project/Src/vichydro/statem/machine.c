@@ -181,6 +181,12 @@ uint16_t vichydro_stm_stSend(void * p, uint8_t cState, uint16_t cLoop, uint32_t 
 	if ( p == FRAME_SENSOR ) {
 		log_debug("Building frame sensor\r\n");
 		sPort = 1;
+		frBuffer[0] = 0x01;				// header
+		frBuffer[1] = 0x00;
+		frBuffer[2] = 0x01;
+		frBuffer[3] = 0x02;
+		frBuffer[4] = 0x03;
+		index = 5;
 	} else if ( p == FRAME_BOOT ) {
 		log_debug("Building frame boot\r\n");
 		// +------+------+------+----------+-----------+
