@@ -60,13 +60,13 @@ void HAL_SPI_MspInit(SPI_HandleTypeDef* spiHandle)
   /* USER CODE END SPI1_MspInit 0 */
     /* SPI1 clock enable */
     __HAL_RCC_SPI1_CLK_ENABLE();
-  
+
     __HAL_RCC_GPIOB_CLK_ENABLE();
     __HAL_RCC_GPIOA_CLK_ENABLE();
-    /**SPI1 GPIO Configuration    
+    /**SPI1 GPIO Configuration
     PB3     ------> SPI1_SCK
     PA7     ------> SPI1_MOSI
-    PA6     ------> SPI1_MISO 
+    PA6     ------> SPI1_MISO
     */
     GPIO_InitStruct.Pin = RADIO_SCLK_Pin;
     GPIO_InitStruct.Mode = GPIO_MODE_AF_PP;
@@ -98,11 +98,11 @@ void HAL_SPI_MspDeInit(SPI_HandleTypeDef* spiHandle)
   /* USER CODE END SPI1_MspDeInit 0 */
     /* Peripheral clock disable */
     __HAL_RCC_SPI1_CLK_DISABLE();
-  
-    /**SPI1 GPIO Configuration    
+
+    /**SPI1 GPIO Configuration
     PB3     ------> SPI1_SCK
     PA7     ------> SPI1_MOSI
-    PA6     ------> SPI1_MISO 
+    PA6     ------> SPI1_MISO
     */
     HAL_GPIO_DeInit(RADIO_SCLK_GPIO_Port, RADIO_SCLK_Pin);
 
@@ -112,7 +112,7 @@ void HAL_SPI_MspDeInit(SPI_HandleTypeDef* spiHandle)
 
   /* USER CODE END SPI1_MspDeInit 1 */
   }
-} 
+}
 
 /* USER CODE BEGIN 1 */
 

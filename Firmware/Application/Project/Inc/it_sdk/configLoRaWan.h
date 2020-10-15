@@ -52,8 +52,8 @@
 #define ITSDK_LORAWAN_DEFAULT_DR	__LORAWAN_DR_0						   // Default data rate (SF12 125KHz)
 #define ITSDK_LORAWAN_CNF_RETRY		3									   // Number of retry when Confirm mode is applied
 #ifndef ITSDK_MURATA_TCXO_WARMUP
-#define ITSDK_MURATA_TCXO_WARMUP	50									   // Warmup time for TCXO
-#define ITSDK_MURATA_WAKEUP_TIME    53 									   // WakeUp time correction for RX window start at least TCXO Time [ms]
+#define ITSDK_MURATA_TCXO_WARMUP		50									   // Warmup time for TCXO
+#define ITSDK_MURATA_WAKEUP_TIME    53 							   // WakeUp time correction for RX window start at least TCXO Time [ms]
 #endif
 #define ITSDK_LORAWAN_MAX_RX_ERROR	0									   // Extends the RX windows with +/- MS
 																		   // This is for unprecised clocks (0=default value)
@@ -123,14 +123,14 @@
 																		   // Bytes are in the same order compared
 																		   // as in a String.
 
-#define ITSDK_LORAWAN_NWKSKEY { 0xBC, 0x65, 0xC7, 0xAE, 0x8F, 0x45, 0x92, 0xBC, 0x3E, 0x94, 0x71, 0xAA, 0xB5, 0x9C, 0x4E, 0x7A }
+#define ITSDK_LORAWAN_NWKSKEY { 0x97, 0x03, 0xAF, 0x07, 0x0C, 0x03, 0x00, 0xCD, 0x99, 0x11, 0x1D, 0x31, 0x8C, 0x0B, 0x34, 0x45 }
 /*{													\
 										0x2B, 0x7E, 0x15, 0x16, 0x28, 0xAE, 0xD2, 0xA6,	\
 										0xAB, 0xF7, 0x15, 0x88, 0x09, 0xCF, 0x4F, 0x3C	\
 									}		*/							   // Static NETWORK SESSION ENCRYPT KEY (byte[])
 																		   // Bytes are in the same order compared
 																		   // as in a String.
-#define ITSDK_LORAWAN_APPSKEY		{ 0x38, 0xA3, 0xA8, 0x24, 0x1D, 0xC5, 0xFD, 0x2E, 0xCE, 0x9E, 0x87, 0x9F, 0xF9, 0x13, 0xA6, 0x01 }
+#define ITSDK_LORAWAN_APPSKEY		{ 0x16, 0x6D, 0x75, 0xE3, 0xDA, 0x54, 0xA6, 0x7D, 0x0E, 0x12, 0x64, 0x67, 0x5C, 0x61, 0xF5, 0x5F }
 /*{ 0x21, 0xB9, 0xC5, 0xE9, 0x03, 0x21, 0x39, 0x12, 0x85, 0x7A, 0xC3, 0x69, 0x7D, 0x2B, 0xA0, 0x84 }		*/						   // Static APPLICATION SESSION ENCRYPT KEY (byte[])
 																		   // Bytes are in the same order compared
 																		   // as in a String.

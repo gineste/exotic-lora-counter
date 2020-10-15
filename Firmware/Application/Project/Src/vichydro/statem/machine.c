@@ -86,7 +86,7 @@ void vichydro_stm_updateTiming() {
  * Setup step, here we are configuring the hardware and software stuff
  */
 uint16_t vichydro_stm_stSetup(void * p, uint8_t cState, uint16_t cLoop, uint32_t tLoop) {
-
+	log_debug("[%d] SETUP\r\n", (uint32_t) itsdk_time_get_ms());
 	static itsdk_lorawan_channelInit_t channels= ITSDK_LORAWAN_CHANNEL;
 	#ifdef ITSDK_LORAWAN_CHANNEL
 		itsdk_lorawan_setup(__LORAWAN_REGION_EU868,&channels);
@@ -118,7 +118,7 @@ uint16_t vichydro_stm_stSetup(void * p, uint8_t cState, uint16_t cLoop, uint32_t
  * Until the configuration of the deviceId is correct we stay in the stWait
  */
 uint16_t vichydro_stm_stWaitC(void * p, uint8_t cState, uint16_t cLoop, uint32_t tLoop) {
-
+	log_debug("[%d] WAIT CONF\r\n", (uint32_t) itsdk_time_get_ms());
 	// Assuming the more convinient way is to reset after configuration
 	return VICHYDRO_ST_WAIT4CONF;
 }
@@ -129,7 +129,7 @@ uint16_t vichydro_stm_stWaitC(void * p, uint8_t cState, uint16_t cLoop, uint32_t
  * Central decision loop / capture data and manage transmission
  */
 uint16_t vichydro_stm_stRun(void * p, uint8_t cState, uint16_t cLoop, uint32_t tLoop) {
-
+	log_debug("[%d] RUN\r\n", (uint32_t) itsdk_time_get_ms());
 
 	if ( vichydro_state.connection != VICHYDRO_CONNEXION_JOINED ) {
   	   // open for discussion, it is immediate or not ?
@@ -165,7 +165,7 @@ uint16_t vichydro_stm_stRun(void * p, uint8_t cState, uint16_t cLoop, uint32_t t
  * Data transmission
  */
 uint16_t vichydro_stm_stSend(void * p, uint8_t cState, uint16_t cLoop, uint32_t tLoop) {
-
+	log_debug("[%d] SEND\r\n", (uint32_t) itsdk_time_get_ms());
 	uint16_t next = VICHYDRO_ST_RUN;
 	uint8_t frBuffer[128];
 	int index = 0;
@@ -251,6 +251,7 @@ uint16_t vichydro_stm_stSend(void * p, uint8_t cState, uint16_t cLoop, uint32_t 
  */
 
 uint16_t vichydro_stm_stJoin(void * p, uint8_t cState, uint16_t cLoop, uint32_t tLoop) {
+	log_debug("[%d] JOIN\r\n", (uint32_t) itsdk_time_get_ms());
 	uint16_t next = VICHYDRO_ST_JOIN;
 	switch ( vichydro_state.connection ) {
 	case VICHYDRO_CONNEXION_INIT:
@@ -261,8 +262,10 @@ uint16_t vichydro_stm_stJoin(void * p, uint8_t cState, uint16_t cLoop, uint32_t 
 				vichydro_state.connectionFailed = 0;
 				next = VICHYDRO_ST_RUN;
 			} else {
+				log_debug("Try to join Lorawan network %d/20\r\n", vichydro_state.connectionFailed);
 				vichydro_state.connectionFailed++;
 				if ( vichydro_state.connectionFailed > 20 ) {
+					log_debug("Fail to join lorawan network\r\n");
 					// slow down the retry
 					vichydro_state.connection = VICHYDRO_CONNEXION_DISCONNECTED;
 				}
@@ -272,6 +275,7 @@ uint16_t vichydro_stm_stJoin(void * p, uint8_t cState, uint16_t cLoop, uint32_t 
 	case VICHYDRO_CONNEXION_DISCONNECTED:
 		// reconnection try on every
 		if (vichydro_state.lastConnectTryS > itsdk_config.app.sleepDuty*itsdk_config.app.sendDuty*VICHYDRO_CONFIG_TIME_BASE_S ) {
+			log_debug("Try to reconnect lorawan network...\r\n");
 			vichydro_state.lastConnectTryS = 0;
 			if ( itsdk_lorawan_join_sync() == LORAWAN_JOIN_SUCCESS ) {
 				vichydro_state.connection = VICHYDRO_CONNEXION_JOINED;

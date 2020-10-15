@@ -99,7 +99,7 @@
 									)										// list the module to be activated in log see config_defines.h
 #define ITSDK_WITH_ERROR_RPT		__ENABLE								// Enable the Error reporting code. The allow to store error code in the EEPROM
 #define ITSDK_ERROR_USE_EPROM		__ENABLE								//  Error reports are stored in the EEPROM
-#define ITSDK_WITH_ERROR_EXTENTION	__DISABLE								//  Add an application extension for error code in configError.h file
+#define ITSDK_WITH_ERROR_EXTENTION	__ENABLE								//  Add an application extension for error code in configError.h file
 #define ITSDK_ERROR_BLOCKS			64										//  Max number of error block / 1 block stores 1 error and needs 8 Byte for storage.
 																			//  The first block is header
 
@@ -173,7 +173,7 @@
 // APP SPECIFIC NVM CONFIG
 // +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
-#define ITSDK_CONFIGURATION_MODE		__CONFIG_EEPROM						// Select the type of configuration used
+#define ITSDK_CONFIGURATION_MODE		__CONFIG_EEPROM		// Select the type of configuration used
 																			// EEPROM = Store the config in EEPROM
 																			// MEMORY = The config is reinit at boottime but store in memory
 																			// STATIC = No config use in memory, only static settings
@@ -188,7 +188,7 @@
 // +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
 
-#define ITSDK_WITH_SECURESTORE		__DISABLE								// Enable EEPROM secured storage
+#define ITSDK_WITH_SECURESTORE		__ENABLE								// Enable EEPROM secured storage
 #define ITSDK_SECSTORE_USRBLOCK		0										//  Number of USER BLOCK to allocate (from 0 to 7)
 #define ITSDK_SECSTORE_DEFKEY		{   \
 									  0xC0,0xA5,0x84,0xEB,0x36,0x4F, \
@@ -215,7 +215,7 @@
 
 #define ITSDK_PROTECT_KEY			0xA7459BC3 	 	/* CHANGE ME */			// A random value used to protect the SIGFOX (and others) KEY in memory (better than nothing)
 
-#define ITSDK_DEFAULT_NETWORK		__ACTIV_NETWORK_SIGFOX					// Default network to activate
+#define ITSDK_DEFAULT_NETWORK		__ACTIV_NETWORK_LORAWAN					// Default network to activate
 #define ITSDK_DEFAULT_REGION		__LPWAN_REGION_EU868				    // default region to activate 
 
 
