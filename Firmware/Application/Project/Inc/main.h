@@ -80,6 +80,9 @@ void Error_Handler(void);
 #define RADIO_ANT_SWITCH_TX_BOOST_GPIO_Port GPIOC
 #define RADIO_RESET_Pin GPIO_PIN_0
 #define RADIO_RESET_GPIO_Port GPIOC
+#define ILS_Pin GPIO_PIN_8
+#define ILS_GPIO_Port GPIOA
+#define ILS_EXTI_IRQn EXTI4_15_IRQn
 #define RADIO_DIO_1_Pin GPIO_PIN_1
 #define RADIO_DIO_1_GPIO_Port GPIOB
 #define RADIO_DIO_1_EXTI_IRQn EXTI0_1_IRQn

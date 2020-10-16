@@ -124,6 +124,7 @@
 #define ITSDK_LOWPOWER_GPIO_A_KEEP	(  __LP_GPIO_NONE \
 									 /*| __LP_GPIO_0*/  /* ILS */ \
 									 /*| __LP_GPIO_4*/	/* HALL */ \
+									 | __LP_GPIO_8  /* ILS tempo */ \
 		                            )
 #define ITSDK_LOWPOWER_GPIO_B_KEEP	(  __LP_GPIO_NONE \
 									 | __LP_GPIO_2  		/* LED RED */\
@@ -149,6 +150,7 @@
 #define ITSDK_LOWPOWER_GPIO_A_WAKE	(__LP_GPIO_NONE \
 												/*| __LP_GPIO_0 */   /* ILS */ \
 												/*| __LP_GPIO_4 */	/* HALL */ \
+												| __LP_GPIO_8  /* ILS tempo */ \
 												)						// During Low Power mode, the GPIO bank A can be used for wakeup
 #define ITSDK_LOWPOWER_GPIO_B_WAKE	( __LP_GPIO_NONE  \
 									/* | __LP_GPIO_6 */ 		/* BQ_ALERT */\

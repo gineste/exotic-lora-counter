@@ -21,6 +21,7 @@
 #include <it_sdk/config.h>
 #include <it_sdk/eeprom/sdk_config.h>
 #include <it_sdk/logger/logger.h>
+#include <it_sdk/time/time.h>
 #include <vichydro/statem/machine.h>
 
 /****************************************************************************************
@@ -35,6 +36,7 @@
  * Private function declarations
  ****************************************************************************************/
 static void __userBtn_interrupt(uint16_t GPIO_Pin);
+static void __ilsBtn_interrupt(uint16_t GPIO_Pin);
 
 /****************************************************************************************
  * Variable declarations
@@ -45,6 +47,12 @@ vichydro_state_t vichydro_state;
 static gpio_irq_chain_t __userBtn_gpio_irq = {
 		__userBtn_interrupt,
 		USER_BTN_Pin,
+		NULL,
+};
+
+static gpio_irq_chain_t __ilsBtn_gpio_irq = {
+		__ilsBtn_interrupt,
+		ILS_Pin,
 		NULL,
 };
 
@@ -65,10 +73,16 @@ void vichydro_setup() {
 	vichydro_state.connectionFailed = 0;
 	vichydro_state.bootFrameSent = 0;
 
-	/* Setup user button (use to reset counter of push) */
+	/* Config user button interrupt */
 	if (USER_BTN_Pin != __LP_GPIO_NONE ) {
 		gpio_configure(__BANK_B,USER_BTN_Pin,GPIO_INTERRUPT_FALLING);
 		gpio_registerIrqAction(&__userBtn_gpio_irq);
+	}
+
+	/* Config ils sensor interrupt */
+	if (ILS_Pin != __LP_GPIO_NONE ) {
+		gpio_configure(__BANK_A,ILS_Pin,GPIO_INTERRUPT_FALLING);
+		gpio_registerIrqAction(&__ilsBtn_gpio_irq);
 	}
 }
 
@@ -87,12 +101,21 @@ itsdk_config_ret_e itsdk_config_app_resetToFactory() {
  * Private functions
  ****************************************************************************************/
 /* @brief	User button interrupt handler.
- * 			Button use for reset counter of push.
+ * 			Button use for reset counter of press.
  * @param 	GPIO_Pin
  * @return 	none
  */
 static void __userBtn_interrupt(uint16_t GPIO_Pin) {
 	log_debug("user btn Int\r\n");
+}
+
+/* @brief	Ils sensor interrupt handler.
+ * 			Sensor use to detect a press.
+ * @param 	GPIO_Pin
+ * @return 	none
+ */
+static void __ilsBtn_interrupt(uint16_t GPIO_Pin) {
+	log_debug("ils Int\r\n");
 }
 
 /****************************************************************************************
