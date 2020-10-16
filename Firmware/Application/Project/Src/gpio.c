@@ -171,10 +171,10 @@ void stm32l_lowPowerRestoreGpioConfig(void)
 	  GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_LOW;
 	  HAL_GPIO_Init(BQ_GE_GPIO_Port, &GPIO_InitStruct);
 
-	  /*Configure GPIO pins : PA12 PA8 PA11 PA0
-	                           PA4 PA2 PA5 PA3 */
-	  GPIO_InitStruct.Pin = GPIO_PIN_12|GPIO_PIN_8|GPIO_PIN_11|GPIO_PIN_0
-	                          |GPIO_PIN_4|GPIO_PIN_2|GPIO_PIN_5|GPIO_PIN_3;
+	  /*Configure GPIO pins : PA12 PA11 PA0 PA4
+	                           PA2 PA5 PA3 */
+	  GPIO_InitStruct.Pin = GPIO_PIN_12|GPIO_PIN_11|GPIO_PIN_0|GPIO_PIN_4
+	                          |GPIO_PIN_2|GPIO_PIN_5|GPIO_PIN_3;
 	  GPIO_InitStruct.Mode = GPIO_MODE_ANALOG;
 	  GPIO_InitStruct.Pull = GPIO_NOPULL;
 	  HAL_GPIO_Init(GPIOA, &GPIO_InitStruct);
