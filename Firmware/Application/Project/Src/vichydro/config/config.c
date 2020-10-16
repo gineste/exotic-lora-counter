@@ -56,6 +56,9 @@ static gpio_irq_chain_t __ilsBtn_gpio_irq = {
 		NULL,
 };
 
+static uint8_t g_u8UserBtnITFlag = 0u;
+static uint8_t g_u8IlsSensorITFlag = 0u;
+
 /****************************************************************************************
  * Public functions
  ****************************************************************************************/ 
@@ -97,6 +100,27 @@ itsdk_config_ret_e itsdk_config_app_resetToFactory() {
 	return CONFIG_RESTORED_FROM_FACTORY;
 }
 
+void vITflagsProcess(void)
+{
+    if(g_u8IlsSensorITFlag == 1u)
+    {
+        log_debug("Blink led\r\n");
+        g_u8IlsSensorITFlag = 0u;
+       HAL_GPIO_WritePin(LED_RED_GPIO_Port, LED_RED_Pin, GPIO_PIN_RESET);
+       while (itsdk_time_get_ms() % 400 == 0);
+       HAL_GPIO_WritePin(LED_RED_GPIO_Port, LED_RED_Pin, GPIO_PIN_SET);
+    }
+
+    if(g_u8UserBtnITFlag == 1u)
+    {
+        log_debug("Blink led\r\n");
+        g_u8UserBtnITFlag = 0u;
+       HAL_GPIO_WritePin(LED_RED_GPIO_Port, LED_RED_Pin, GPIO_PIN_RESET);
+       while (itsdk_time_get_ms() % 400 == 0);
+       HAL_GPIO_WritePin(LED_RED_GPIO_Port, LED_RED_Pin, GPIO_PIN_SET);
+    }
+}
+
 /****************************************************************************************
  * Private functions
  ****************************************************************************************/
@@ -107,6 +131,7 @@ itsdk_config_ret_e itsdk_config_app_resetToFactory() {
  */
 static void __userBtn_interrupt(uint16_t GPIO_Pin) {
 	log_debug("user btn Int\r\n");
+   g_u8UserBtnITFlag = 1u;
 }
 
 /* @brief	Ils sensor interrupt handler.
@@ -116,6 +141,7 @@ static void __userBtn_interrupt(uint16_t GPIO_Pin) {
  */
 static void __ilsBtn_interrupt(uint16_t GPIO_Pin) {
 	log_debug("ils Int\r\n");
+   g_u8IlsSensorITFlag = 1u;
 }
 
 /****************************************************************************************

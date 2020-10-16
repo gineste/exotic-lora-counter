@@ -72,5 +72,6 @@ uint16_t vichydro_stm_stSend(void * p, uint8_t cState, uint16_t cLoop, uint32_t 
 uint16_t vichydro_stm_stJoin(void * p, uint8_t cState, uint16_t cLoop, uint32_t tLoop);
 
 void vichydro_setup();
+void vITflagsProcess(void);
 
 #endif /* MACHINE_H_ */

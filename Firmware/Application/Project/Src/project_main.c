@@ -66,5 +66,6 @@ void project_setup ()
 void project_loop ()
 {
 	itsdk_lorawan_loop();
+   vITflagsProcess();
 }
 
