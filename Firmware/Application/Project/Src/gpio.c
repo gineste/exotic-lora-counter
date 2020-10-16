@@ -90,10 +90,10 @@ void MX_GPIO_Init(void)
   GPIO_InitStruct.Pull = GPIO_NOPULL;
   HAL_GPIO_Init(GPIOB, &GPIO_InitStruct);
 
-  /*Configure GPIO pins : PB6 PB7 PB15 PB14
-                           PB13 PB11 PB10 */
-  GPIO_InitStruct.Pin = GPIO_PIN_6|GPIO_PIN_7|GPIO_PIN_15|GPIO_PIN_14
-                          |GPIO_PIN_13|GPIO_PIN_11|GPIO_PIN_10;
+  /*Configure GPIO pins : PB6 PB15 PB14 PB13
+                           PB11 PB10 */
+  GPIO_InitStruct.Pin = GPIO_PIN_6|GPIO_PIN_15|GPIO_PIN_14|GPIO_PIN_13
+                          |GPIO_PIN_11|GPIO_PIN_10;
   GPIO_InitStruct.Mode = GPIO_MODE_ANALOG;
   GPIO_InitStruct.Pull = GPIO_NOPULL;
   HAL_GPIO_Init(GPIOB, &GPIO_InitStruct);
@@ -103,6 +103,12 @@ void MX_GPIO_Init(void)
   GPIO_InitStruct.Mode = GPIO_MODE_IT_RISING;
   GPIO_InitStruct.Pull = GPIO_NOPULL;
   HAL_GPIO_Init(RADIO_DIO_3_GPIO_Port, &GPIO_InitStruct);
+
+  /*Configure GPIO pin : PtPin */
+  GPIO_InitStruct.Pin = USER_BTN_Pin;
+  GPIO_InitStruct.Mode = GPIO_MODE_IT_FALLING;
+  GPIO_InitStruct.Pull = GPIO_NOPULL;
+  HAL_GPIO_Init(USER_BTN_GPIO_Port, &GPIO_InitStruct);
 
   /*Configure GPIO pins : PCPin PCPin PCPin */
   GPIO_InitStruct.Pin = RADIO_ANT_SWITCH_TX_BOOST_Pin|RADIO_RESET_Pin|RADIO_ANT_SWITCH_TX_RFO_Pin;
@@ -160,9 +166,9 @@ void stm32l_lowPowerRestoreGpioConfig(void)
 	  HAL_GPIO_Init(BQ_GE_GPIO_Port, &GPIO_InitStruct);
 
 	  /*Configure GPIO pins : PA12 PA8 PA11 PA0
-	                           PA4 PA2 PA3 */
+	                           PA4 PA2 PA5 PA3 */
 	  GPIO_InitStruct.Pin = GPIO_PIN_12|GPIO_PIN_8|GPIO_PIN_11|GPIO_PIN_0
-	                          |GPIO_PIN_4|GPIO_PIN_2|GPIO_PIN_3;
+	                          |GPIO_PIN_4|GPIO_PIN_2|GPIO_PIN_5|GPIO_PIN_3;
 	  GPIO_InitStruct.Mode = GPIO_MODE_ANALOG;
 	  GPIO_InitStruct.Pull = GPIO_NOPULL;
 	  HAL_GPIO_Init(GPIOA, &GPIO_InitStruct);
@@ -173,10 +179,10 @@ void stm32l_lowPowerRestoreGpioConfig(void)
 	  GPIO_InitStruct.Pull = GPIO_NOPULL;
 	  HAL_GPIO_Init(GPIOB, &GPIO_InitStruct);
 
-	  /*Configure GPIO pins : PB6 PB7 PB15 PB14
-	                           PB13 PB11 PB10 */
-	  GPIO_InitStruct.Pin = GPIO_PIN_6|GPIO_PIN_7|GPIO_PIN_15|GPIO_PIN_14
-	                          |GPIO_PIN_13|GPIO_PIN_11|GPIO_PIN_10;
+	  /*Configure GPIO pins : PB6 PB15 PB14 PB13
+	                           PB11 PB10 */
+	  GPIO_InitStruct.Pin = GPIO_PIN_6|GPIO_PIN_15|GPIO_PIN_14|GPIO_PIN_13
+	                          |GPIO_PIN_11|GPIO_PIN_10;
 	  GPIO_InitStruct.Mode = GPIO_MODE_ANALOG;
 	  GPIO_InitStruct.Pull = GPIO_NOPULL;
 	  HAL_GPIO_Init(GPIOB, &GPIO_InitStruct);
@@ -188,24 +194,11 @@ void stm32l_lowPowerRestoreGpioConfig(void)
 	  HAL_GPIO_Init(RADIO_DIO_3_GPIO_Port, &GPIO_InitStruct);
 
 	  /*Configure GPIO pin : PtPin */
-	  GPIO_InitStruct.Pin = LED_RED_Pin;
-	  GPIO_InitStruct.Mode = GPIO_MODE_OUTPUT_PP;
-	  GPIO_InitStruct.Pull = GPIO_PULLUP;
-	  GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_LOW;
-	  HAL_GPIO_Init(LED_RED_GPIO_Port, &GPIO_InitStruct);
-
-	  /*Configure GPIO pin : PtPin */
 	  GPIO_InitStruct.Pin = RADIO_TCXO_VDD_Pin;
 	  GPIO_InitStruct.Mode = GPIO_MODE_OUTPUT_PP;
 	  GPIO_InitStruct.Pull = GPIO_NOPULL;
 	  GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_HIGH;
 	  HAL_GPIO_Init(RADIO_TCXO_VDD_GPIO_Port, &GPIO_InitStruct);
-
-	  /*Configure GPIO pin : PA5 */
-	  GPIO_InitStruct.Pin = GPIO_PIN_5;
-	  GPIO_InitStruct.Mode = GPIO_MODE_INPUT;
-	  GPIO_InitStruct.Pull = GPIO_NOPULL;
-	  HAL_GPIO_Init(GPIOA, &GPIO_InitStruct);
 
 	  /* EXTI interrupt init*/
 	  HAL_NVIC_SetPriority(EXTI0_1_IRQn, 0, 0);

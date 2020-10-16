@@ -104,7 +104,6 @@ uint16_t vichydro_stm_stSetup(void * p, uint8_t cState, uint16_t cLoop, uint32_t
 	while ( i < 8 && devEui[i] == 0 ) i++;
 	if  ( i == 8 ) {
 		// The device is not yet initialized
-		log_info("Lorawan EUI not init\r\n");
 		return VICHYDRO_ST_WAIT4CONF;
 	} else {
 		// Ready to go

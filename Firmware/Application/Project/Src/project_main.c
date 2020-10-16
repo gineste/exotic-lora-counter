@@ -56,6 +56,8 @@ void project_setup ()
 	vichydro_state.lastResetCause = itsdk_getResetCause();
 	SX1276InitLowPower();
 	itdt_sched_registerSched(VICHYDRO_CONFIG_TIME_BASE_S*1000,ITSDK_SCHED_CONF_IMMEDIATE, &task);
+
+	/*lowPower_disable();*/
 }
 
 /**
@@ -63,12 +65,6 @@ void project_setup ()
  */
 void project_loop ()
 {
-	/*HAL_GPIO_WritePin(LED_RED_GPIO_Port, LED_RED_Pin, GPIO_PIN_RESET);
-
-	while (itsdk_time_get_ms() % 100 == 0);
-
-	HAL_GPIO_WritePin(LED_RED_GPIO_Port, LED_RED_Pin, GPIO_PIN_SET);*/
-
 	itsdk_lorawan_loop();
 }
 

@@ -1,7 +1,6 @@
 #!/bin/bash
 
-version_h="../vichydro/config/Version.h"
-boardConfig_h="../vichydro/config/BoardConfig.h"
+version_h="../Inc/vichydro/config/Version.h"
 projectName=$1
 echo "=========================== UPDATE INFO ================================"
 lineNumberCommit=`grep -n COMMIT_NUMBER $version_h | cut -d: -f1`

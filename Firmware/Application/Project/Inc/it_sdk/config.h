@@ -80,9 +80,9 @@
 #define ITSDK_CORE_CLKFREQ			32000000								// Core Frequency of the chip
 #define ITSDK_WITH_EXPERIMENTAL     __DISABLE 								// Activate some experimental code under review, basically should always be __DISABLE
 
-#define ITSDK_LOGGER_CONF			LOGGER_CONFIG_DEBUGLNK_MASK									// error->info level on serial1 => USART2 (see logger.c)
+#define ITSDK_LOGGER_CONF			LOGGER_CONFIG_SERIAL1_MASK									// error->info level on serial1 => USART2 (see logger.c)
                                                                             // File | Serial1 | Serial2 | Debug
-#define ITSDK_LOGGER_WITH_SEG_RTT	__ENABLE								// enable SEGGER RTT trace driver for DEBUG interface
+#define ITSDK_LOGGER_WITH_SEG_RTT	__DISABLE								// enable SEGGER RTT trace driver for DEBUG interface
 #define ITSDK_LOGGER_MODULE			( \
 									  __LOG_MOD_NONE		  \
 									| __LOG_MOD_LOWPOWER    \
@@ -105,7 +105,7 @@
 
 #define ITSDK_LOWPOWER_MOD			( __LOWPWR_MODE_STOP       \
 									| __LOWPWR_MODE_WAKE_RTC   \
-								/*	| __LOWPWR_MODE_WAKE_GPIO */  \
+									| __LOWPWR_MODE_WAKE_GPIO   \
 								/*	| __LOWPWR_MODE_WAKE_LPUART */\
 								/*  | __LOWPWR_MODE_WAKE_UART1 */ \
 									)										// Mode Stop + wakeup RTC + GPIO
@@ -126,9 +126,10 @@
 									 /*| __LP_GPIO_4*/	/* HALL */ \
 		                            )
 #define ITSDK_LOWPOWER_GPIO_B_KEEP	(  __LP_GPIO_NONE \
+									 | __LP_GPIO_2  		/* LED RED */\
 									 /*| __LP_GPIO_5 */ 		/* BQ_GE */\
 									 /*| __LP_GPIO_6 */ 		/* BQ_ALERT */\
-									/* | __LP_GPIO_7 */ 	 	/* USER_BP */\
+									 | __LP_GPIO_7  	 	/* USER_BP */\
 									 | __LP_GPIO_8 	 	 /* I2C */ \
 									 | __LP_GPIO_9 	 	 /* I2C */ \
 								/*	 | __LP_GPIO_13 */  	/* SPI2 */\
@@ -146,12 +147,12 @@
 
 																			// GPIO Wake-Up => the pin should also be in the _KEEP list
 #define ITSDK_LOWPOWER_GPIO_A_WAKE	(__LP_GPIO_NONE \
-												/*| __LP_GPIO_0 */  /* ILS */ \
+												/*| __LP_GPIO_0 */   /* ILS */ \
 												/*| __LP_GPIO_4 */	/* HALL */ \
 												)						// During Low Power mode, the GPIO bank A can be used for wakeup
 #define ITSDK_LOWPOWER_GPIO_B_WAKE	( __LP_GPIO_NONE  \
 									/* | __LP_GPIO_6 */ 		/* BQ_ALERT */\
-									/* | __LP_GPIO_7 */ 	 	/* USER_BP */\
+									 | __LP_GPIO_7  	 	/* USER_BP */\
 									)										// During Low Power mode, the GPIO bank B can be used for wakeup
 #define ITSDK_LOWPOWER_GPIO_C_WAKE	( __LP_GPIO_NONE \
 									)										// During Low Power mode, the GPIO bank C can be used for wakeup
@@ -188,7 +189,7 @@
 // +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
 
-#define ITSDK_WITH_SECURESTORE		__ENABLE								// Enable EEPROM secured storage
+#define ITSDK_WITH_SECURESTORE		__DISABLE								// Enable EEPROM secured storage
 #define ITSDK_SECSTORE_USRBLOCK		0										//  Number of USER BLOCK to allocate (from 0 to 7)
 #define ITSDK_SECSTORE_DEFKEY		{   \
 									  0xC0,0xA5,0x84,0xEB,0x36,0x4F, \
