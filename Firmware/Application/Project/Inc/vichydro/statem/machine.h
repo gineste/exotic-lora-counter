@@ -50,6 +50,9 @@ typedef struct {
 	uint16_t	lastResetCause;				// Last reset reason
 	uint8_t		bootFrameSent:1;			// The reboot message has been sent
 
+	uint16_t	nbPress;			/* Number of press since the last reset */
+	uint32_t	nbPressTot;		/* Number of press since the beginning of the device life */
+
 	vichydro_connection_state_e		connection;		// State of the LoRaWan connection
 	uint16_t	connectionFailed;			// Failed consecutive connection counter
 

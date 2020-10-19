@@ -50,7 +50,11 @@ typedef struct {
 	uint8_t							ackRetry;		// Number of ackDuty retry before considering reconnection x ackDuty
 	uint8_t							sleepDuty;		// Period between two connection try when disconnected x sendDuty
 
-	uint8_t							alignment[3];	// For 32bits size alignment
+	uint16_t							nbPress;			/* Number of press since the last reset */
+	uint32_t							nbPressTot;		/* Number of press since the beginning of the device life */
+															/* Use itsdk config to store press counter values in NVM */
+
+	uint8_t							alignment[1];	// For 32bits size alignment
 } itsdk_configuration_app_t;
 
 

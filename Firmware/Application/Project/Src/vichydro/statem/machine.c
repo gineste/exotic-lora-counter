@@ -179,17 +179,22 @@ uint16_t vichydro_stm_stSend(void * p, uint8_t cState, uint16_t cLoop, uint32_t 
 
 	if ( p == FRAME_SENSOR ) {
 		log_debug("Building frame sensor\r\n");
+		// +------+----------+----------------+
+		// | 0x01 | Nb press | Nb press total |
+		// +------+----------+----------------+
 		sPort = 1;
-		frBuffer[0] = 0x01;				// header
-		frBuffer[1] = 0x00;
-		frBuffer[2] = 0x01;
-		frBuffer[3] = 0x02;
-		frBuffer[4] = 0x03;
-		index = 5;
+		frBuffer[0] = 0x00;				// header
+		frBuffer[1] = (vichydro_state.nbPress & 0xFF00) >> 8; 			/* Nb press (big endian) */
+		frBuffer[2] = (vichydro_state.nbPress & 0xFF);
+		frBuffer[3] = (vichydro_state.nbPressTot & 0xFF000000) >> 24; 	/* Nb press total (big endian) */
+		frBuffer[4] = (vichydro_state.nbPressTot & 0xFF0000) >> 16;
+		frBuffer[5] = (vichydro_state.nbPressTot & 0xFF00) >> 8;
+		frBuffer[6] = (vichydro_state.nbPressTot & 0xFF);
+		index = 7;
 	} else if ( p == FRAME_BOOT ) {
 		log_debug("Building frame boot\r\n");
 		// +------+------+------+----------+-----------+
-		// | 0x01 | Reset Cause | SendDuty | SleepDuty |
+		// | 0x02 | Reset Cause | SendDuty | SleepDuty |
 		// +------+------+------+----------+-----------+
 		// Frame boot frame, not cayenne style
 		sPort = 5;	// admin frame

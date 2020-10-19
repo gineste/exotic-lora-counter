@@ -75,6 +75,8 @@ void vichydro_setup() {
 	vichydro_state.connection = VICHYDRO_CONNEXION_INIT;
 	vichydro_state.connectionFailed = 0;
 	vichydro_state.bootFrameSent = 0;
+	vichydro_state.nbPress = 0u;
+	vichydro_state.nbPressTot = 0u;
 
 	/* Config user button interrupt */
 	if (USER_BTN_Pin != __LP_GPIO_NONE ) {
@@ -97,28 +99,41 @@ itsdk_config_ret_e itsdk_config_app_resetToFactory() {
 	itsdk_config.app.ackDuty = VICHYDRO_CONFIG_ACKDUTY;
 	itsdk_config.app.ackRetry = VICHYDRO_CONFIG_ACKRETRY;
 	itsdk_config.app.sleepDuty = VICHYDRO_CONFIG_SLEEPDUTY;
+
+	itsdk_config.app.nbPress = 0u;
+	itsdk_config.app.nbPressTot = 0u;
 	return CONFIG_RESTORED_FROM_FACTORY;
 }
 
 void vITflagsProcess(void)
 {
-    if(g_u8IlsSensorITFlag == 1u)
-    {
-        log_debug("Blink led\r\n");
-        g_u8IlsSensorITFlag = 0u;
-       HAL_GPIO_WritePin(LED_RED_GPIO_Port, LED_RED_Pin, GPIO_PIN_RESET);
-       while (itsdk_time_get_ms() % 400 == 0);
-       HAL_GPIO_WritePin(LED_RED_GPIO_Port, LED_RED_Pin, GPIO_PIN_SET);
-    }
+	/* ILS sensor (press) */
+	if(g_u8IlsSensorITFlag == 1u)
+	{
+		g_u8IlsSensorITFlag = 0u;
+		vichydro_state.nbPress++;
+		vichydro_state.nbPressTot++;
+		log_debug("press: %d\r\n", vichydro_state.nbPress);
+		log_debug("press total: %d\r\n", vichydro_state.nbPressTot);
 
-    if(g_u8UserBtnITFlag == 1u)
-    {
-        log_debug("Blink led\r\n");
-        g_u8UserBtnITFlag = 0u;
-       HAL_GPIO_WritePin(LED_RED_GPIO_Port, LED_RED_Pin, GPIO_PIN_RESET);
-       while (itsdk_time_get_ms() % 400 == 0);
-       HAL_GPIO_WritePin(LED_RED_GPIO_Port, LED_RED_Pin, GPIO_PIN_SET);
-    }
+		/* blink led */
+		HAL_GPIO_WritePin(LED_RED_GPIO_Port, LED_RED_Pin, GPIO_PIN_RESET);
+		while (itsdk_time_get_ms() % 400 == 0);
+		HAL_GPIO_WritePin(LED_RED_GPIO_Port, LED_RED_Pin, GPIO_PIN_SET);
+	}
+
+	/* User btn (reset) */
+	if(g_u8UserBtnITFlag == 1u)
+	{
+		log_debug("Reset press counter\r\n");
+		g_u8UserBtnITFlag = 0u;
+		vichydro_state.nbPress = 0u;
+
+		/* blink led */
+		HAL_GPIO_WritePin(LED_RED_GPIO_Port, LED_RED_Pin, GPIO_PIN_RESET);
+		while (itsdk_time_get_ms() % 400 == 0);
+		HAL_GPIO_WritePin(LED_RED_GPIO_Port, LED_RED_Pin, GPIO_PIN_SET);
+	}
 }
 
 /****************************************************************************************
