@@ -22,6 +22,7 @@
 #include <it_sdk/eeprom/sdk_config.h>
 #include <it_sdk/logger/logger.h>
 #include <it_sdk/time/time.h>
+#include <it_sdk/eeprom/eeprom.h>
 #include <vichydro/statem/machine.h>
 
 /****************************************************************************************
@@ -75,8 +76,6 @@ void vichydro_setup() {
 	vichydro_state.connection = VICHYDRO_CONNEXION_INIT;
 	vichydro_state.connectionFailed = 0;
 	vichydro_state.bootFrameSent = 0;
-	vichydro_state.nbPress = 0u;
-	vichydro_state.nbPressTot = 0u;
 
 	/* Config user button interrupt */
 	if (USER_BTN_Pin != __LP_GPIO_NONE ) {
@@ -111,10 +110,11 @@ void vITflagsProcess(void)
 	if(g_u8IlsSensorITFlag == 1u)
 	{
 		g_u8IlsSensorITFlag = 0u;
-		vichydro_state.nbPress++;
-		vichydro_state.nbPressTot++;
-		log_debug("press: %d\r\n", vichydro_state.nbPress);
-		log_debug("press total: %d\r\n", vichydro_state.nbPressTot);
+		itsdk_config.app.nbPress++;
+		itsdk_config.app.nbPressTot++;
+		eeprom_write(&itsdk_config, sizeof(itsdk_configuration_nvm_t), ITSDK_CONFIGURATION_MNG_VERSION);
+		log_debug("press: %d\r\n", itsdk_config.app.nbPress);
+		log_debug("press total: %d\r\n", itsdk_config.app.nbPressTot);
 
 		/* blink led */
 		HAL_GPIO_WritePin(LED_RED_GPIO_Port, LED_RED_Pin, GPIO_PIN_RESET);
@@ -127,7 +127,8 @@ void vITflagsProcess(void)
 	{
 		log_debug("Reset press counter\r\n");
 		g_u8UserBtnITFlag = 0u;
-		vichydro_state.nbPress = 0u;
+		itsdk_config.app.nbPress = 0u;
+		eeprom_write(&itsdk_config, sizeof(itsdk_configuration_nvm_t), ITSDK_CONFIGURATION_MNG_VERSION);
 
 		/* blink led */
 		HAL_GPIO_WritePin(LED_RED_GPIO_Port, LED_RED_Pin, GPIO_PIN_RESET);

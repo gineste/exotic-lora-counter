@@ -169,7 +169,6 @@ uint16_t vichydro_stm_stSend(void * p, uint8_t cState, uint16_t cLoop, uint32_t 
 	uint8_t frBuffer[128];
 	int index = 0;
 	uint8_t sPort=1;
-	itsdk_cayenne_data_u cayenne;
 
 	itsdk_lorawan_sendconf_t ack = LORAWAN_SEND_UNCONFIRMED;
 	if ( vichydro_state.lastAckTestS > itsdk_config.app.ackDuty*itsdk_config.app.sendDuty*VICHYDRO_CONFIG_TIME_BASE_S) {
@@ -184,12 +183,12 @@ uint16_t vichydro_stm_stSend(void * p, uint8_t cState, uint16_t cLoop, uint32_t 
 		// +------+----------+----------------+
 		sPort = 1;
 		frBuffer[0] = 0x00;				// header
-		frBuffer[1] = (vichydro_state.nbPress & 0xFF00) >> 8; 			/* Nb press (big endian) */
-		frBuffer[2] = (vichydro_state.nbPress & 0xFF);
-		frBuffer[3] = (vichydro_state.nbPressTot & 0xFF000000) >> 24; 	/* Nb press total (big endian) */
-		frBuffer[4] = (vichydro_state.nbPressTot & 0xFF0000) >> 16;
-		frBuffer[5] = (vichydro_state.nbPressTot & 0xFF00) >> 8;
-		frBuffer[6] = (vichydro_state.nbPressTot & 0xFF);
+		frBuffer[1] = (itsdk_config.app.nbPress & 0xFF00) >> 8; 			/* Nb press (big endian) */
+		frBuffer[2] = (itsdk_config.app.nbPress & 0xFF);
+		frBuffer[3] = (itsdk_config.app.nbPressTot & 0xFF000000) >> 24; 	/* Nb press total (big endian) */
+		frBuffer[4] = (itsdk_config.app.nbPressTot & 0xFF0000) >> 16;
+		frBuffer[5] = (itsdk_config.app.nbPressTot & 0xFF00) >> 8;
+		frBuffer[6] = (itsdk_config.app.nbPressTot & 0xFF);
 		index = 7;
 	} else if ( p == FRAME_BOOT ) {
 		log_debug("Building frame boot\r\n");
