@@ -77,6 +77,9 @@ void vichydro_setup() {
 	vichydro_state.connectionFailed = 0;
 	vichydro_state.bootFrameSent = 0;
 
+	/* Reset duty cycle values to factory */
+	itsdk_config_app_resetToFactory();
+
 	/* Config user button interrupt */
 	if (USER_BTN_Pin != __LP_GPIO_NONE ) {
 		gpio_configure(__BANK_B,USER_BTN_Pin,GPIO_INTERRUPT_FALLING);
@@ -99,8 +102,8 @@ itsdk_config_ret_e itsdk_config_app_resetToFactory() {
 	itsdk_config.app.ackRetry = VICHYDRO_CONFIG_ACKRETRY;
 	itsdk_config.app.sleepDuty = VICHYDRO_CONFIG_SLEEPDUTY;
 
-	itsdk_config.app.nbPress = 0u;
-	itsdk_config.app.nbPressTot = 0u;
+	/*itsdk_config.app.nbPress = 0u;
+	itsdk_config.app.nbPressTot = 0u;*/
 	return CONFIG_RESTORED_FROM_FACTORY;
 }
 
