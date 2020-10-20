@@ -112,7 +112,6 @@ void vITflagsProcess(void)
 		g_u8IlsSensorITFlag = 0u;
 		itsdk_config.app.nbPress++;
 		itsdk_config.app.nbPressTot++;
-		eeprom_write(&itsdk_config, sizeof(itsdk_configuration_nvm_t), ITSDK_CONFIGURATION_MNG_VERSION);
 		log_debug("press: %d\r\n", itsdk_config.app.nbPress);
 		log_debug("press total: %d\r\n", itsdk_config.app.nbPressTot);
 
@@ -128,7 +127,6 @@ void vITflagsProcess(void)
 		log_debug("Reset press counter\r\n");
 		g_u8UserBtnITFlag = 0u;
 		itsdk_config.app.nbPress = 0u;
-		eeprom_write(&itsdk_config, sizeof(itsdk_configuration_nvm_t), ITSDK_CONFIGURATION_MNG_VERSION);
 
 		/* blink led */
 		HAL_GPIO_WritePin(LED_RED_GPIO_Port, LED_RED_Pin, GPIO_PIN_RESET);

@@ -145,8 +145,10 @@ uint16_t vichydro_stm_stRun(void * p, uint8_t cState, uint16_t cLoop, uint32_t t
 	// Get values when sendDuty time has been reached
 	if ( itsdk_config.app.sendDuty > 0 && vichydro_state.lastMeasureS >= itsdk_config.app.sendDuty*VICHYDRO_CONFIG_TIME_BASE_S ) {
 		log_info("T%d\r\n",(uint32_t)itsdk_time_get_ms());
-
 		vichydro_state.lastMeasureS = 0;
+
+		/* Save values in NVM */
+		eeprom_write(&itsdk_config, sizeof(itsdk_configuration_nvm_t), ITSDK_CONFIGURATION_MNG_VERSION);
 
 		if ( vichydro_state.connection == VICHYDRO_CONNEXION_JOINED )
 		   return ( VICHYDRO_ST_SEND | STATE_IMMEDIATE_JUMP);

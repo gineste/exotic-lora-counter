@@ -1,3 +1,6 @@
+* 0.2.1 *
+- Store values in NVM at SEND instead of every increment to reduce write cycles.
+
 * 0.2.0 *
 - deep sleep power consumption 1.6µA
 - Count press with ILS sensor
