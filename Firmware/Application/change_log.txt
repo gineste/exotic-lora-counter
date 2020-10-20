@@ -1,0 +1,7 @@
+* 0.2.0 *
+- deep sleep power consumption 1.6µA
+- Count press with ILS sensor
+- Reset button
+- Store counter values in NVM
+- Send values on lorawan
+- Average consumption 68 µA with send/15min
