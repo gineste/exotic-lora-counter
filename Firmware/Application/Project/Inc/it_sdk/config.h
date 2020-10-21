@@ -121,11 +121,22 @@
 									 | __LP_HALT_TIM21 					\
 								/*	 | __LP_HALT_ADC1 */  					\
 									)										// extra module to stop during low power phase
-#define ITSDK_LOWPOWER_GPIO_A_KEEP	(  __LP_GPIO_NONE \
+#if (USE_DEBUG == 0u)
+	#define ITSDK_LOWPOWER_GPIO_A_KEEP	(  __LP_GPIO_NONE \
 									 /*| __LP_GPIO_0*/  /* ILS */ \
 									 /*| __LP_GPIO_4*/	/* HALL */ \
 									 | __LP_GPIO_8  /* ILS tempo */ \
+									 | __LP_GPIO_14  /* LED GREEN */ \
 		                            )
+#else
+	#define ITSDK_LOWPOWER_GPIO_A_KEEP	(  __LP_GPIO_NONE \
+								 /*| __LP_GPIO_0*/  /* ILS */ \
+								 /*| __LP_GPIO_4*/	/* HALL */ \
+								 | __LP_GPIO_8  /* ILS tempo */ \
+								 /*|__LP_GPIO_14*/  /* LED GREEN */ \
+	                            )
+#endif
+
 #define ITSDK_LOWPOWER_GPIO_B_KEEP	(  __LP_GPIO_NONE \
 									 | __LP_GPIO_2  		/* LED RED */\
 									 /*| __LP_GPIO_5 */ 		/* BQ_GE */\

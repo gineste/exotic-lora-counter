@@ -31,6 +31,8 @@
 	#include <it_sdk/config.h>
 	#include <it_sdk/itsdk.h>
 	#include <it_sdk/lowpower/lowpower.h>
+	#include "vichydro/board/led.h"
+	#include "vichydro/config/boardConfig.h"
 
 /* USER CODE END Includes */
 
@@ -57,7 +59,9 @@
 /* Private function prototypes -----------------------------------------------*/
 void SystemClock_Config(void);
 /* USER CODE BEGIN PFP */
-
+#if (USE_DEBUG == 0u)
+void USER_RCFG_DBG_GPIO(void);			/* reconfigure SWCLK pin (PA14) to use LED GREEN */
+#endif
 /* USER CODE END PFP */
 
 /* Private user code ---------------------------------------------------------*/
@@ -99,6 +103,11 @@ int main(void)
   MX_TIM21_Init();
   MX_USART1_UART_Init();
   /* USER CODE BEGIN 2 */
+
+#if (USE_DEBUG == 0u)
+  USER_RCFG_DBG_GPIO();
+#endif
+
   itsdk_setup();
 
   /* USER CODE END 2 */
@@ -172,7 +181,28 @@ void SystemClock_Config(void)
 }
 
 /* USER CODE BEGIN 4 */
+#if (USE_DEBUG == 0u)
+void USER_RCFG_DBG_GPIO(void)
+{
+	GPIO_InitTypeDef GPIO_InitStruct = {0};
 
+  GPIO_InitStruct.Pin = LED_GREEN_Pin;
+  GPIO_InitStruct.Mode = GPIO_MODE_OUTPUT_PP;
+  GPIO_InitStruct.Pull = GPIO_PULLUP;
+  GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_LOW;
+
+  __GPIOA_CLK_ENABLE();
+  HAL_GPIO_Init(LED_GREEN_GPIO_Port, &GPIO_InitStruct);
+  LED_GREEN_OFF();
+  __GPIOA_CLK_DISABLE();
+
+  __HAL_RCC_DBGMCU_CLK_ENABLE();
+  HAL_DBGMCU_DisableDBGSleepMode();
+  HAL_DBGMCU_DisableDBGStopMode();
+  HAL_DBGMCU_DisableDBGStandbyMode();
+  __HAL_RCC_DBGMCU_CLK_ENABLE();
+}
+#endif
 /* USER CODE END 4 */
 
 /**
