@@ -24,8 +24,8 @@
 #define FW_VERSION   "0.2.1"
 #define HW_VERSION   "1.A"
 
-#define BUILD_DATE   "2020-10-21"
-#define BUILD_TIME   "18:02:52"
+#define BUILD_DATE   "2020-10-22"
+#define BUILD_TIME   "16:44:59"
 
 #define FW_VERSION_MAJOR	   (0x0)
 #define FW_VERSION_MINOR	   (0x2)
@@ -43,7 +43,7 @@
 #define ITSDK_USER_VERSION_BYTE		(FW_VERSION_MAJOR << 4) | FW_VERSION_MINOR
 
 /* COMMIT HASH */
-#define COMMIT_NUMBER    "6056ee2"
+#define COMMIT_NUMBER    "ba05ff9"
 
 /************************************************************************
  * Type definitions

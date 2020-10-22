@@ -29,6 +29,7 @@
 #include <it_sdk/eeprom/sdk_config.h>
 #include <it_sdk/lorawan/cayenne.h>
 #include <it_sdk/configError.h>
+#include "vichydro/board/led.h"
 
 #include "vichydro/statem/machine.h"
 
@@ -166,6 +167,7 @@ uint16_t vichydro_stm_stRun(void * p, uint8_t cState, uint16_t cLoop, uint32_t t
  * Data transmission
  */
 uint16_t vichydro_stm_stSend(void * p, uint8_t cState, uint16_t cLoop, uint32_t tLoop) {
+	LED_GREEN_ON();
 	log_debug("[%d] SEND\r\n", (uint32_t) itsdk_time_get_ms());
 	uint16_t next = VICHYDRO_ST_RUN;
 	uint8_t frBuffer[128];
@@ -254,6 +256,7 @@ uint16_t vichydro_stm_stSend(void * p, uint8_t cState, uint16_t cLoop, uint32_t 
 		default:
 			break;
 	}
+	LED_GREEN_OFF();
 	return next;
 }
 
@@ -269,6 +272,14 @@ uint16_t vichydro_stm_stJoin(void * p, uint8_t cState, uint16_t cLoop, uint32_t 
 		// first connection, no wait, loop until connection success
 		if ( !itsdk_lorawan_hasjoined() ) {
 			if ( itsdk_lorawan_join_sync() == LORAWAN_JOIN_SUCCESS ) {
+				/* Blink green led if success */
+				LED_GREEN_ON();
+				vTime_WaitMs(200u);
+				LED_GREEN_OFF();
+				vTime_WaitMs(200u);
+				LED_GREEN_ON();
+				vTime_WaitMs(200u);
+				LED_GREEN_OFF();
 				vichydro_state.connection = VICHYDRO_CONNEXION_JOINED;
 				vichydro_state.connectionFailed = 0;
 				next = VICHYDRO_ST_RUN;
@@ -277,6 +288,14 @@ uint16_t vichydro_stm_stJoin(void * p, uint8_t cState, uint16_t cLoop, uint32_t 
 				vichydro_state.connectionFailed++;
 				if ( vichydro_state.connectionFailed > 20 ) {
 					log_debug("Fail to join lorawan network\r\n");
+					/* Blink red led if failed */
+					LED_RED_ON();
+					vTime_WaitMs(200u);
+					LED_RED_OFF();
+					vTime_WaitMs(200u);
+					LED_RED_ON();
+					vTime_WaitMs(200u);
+					LED_RED_OFF();
 					// slow down the retry
 					vichydro_state.connection = VICHYDRO_CONNEXION_DISCONNECTED;
 				}

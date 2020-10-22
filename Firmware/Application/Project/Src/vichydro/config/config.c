@@ -23,6 +23,7 @@
 #include <it_sdk/logger/logger.h>
 #include <it_sdk/time/time.h>
 #include <it_sdk/eeprom/eeprom.h>
+#include "vichydro/board/led.h"
 #include <vichydro/statem/machine.h>
 
 /****************************************************************************************
@@ -67,6 +68,8 @@ static uint8_t g_u8IlsSensorITFlag = 0u;
  * Setup the vichydro software & boards
  */
 void vichydro_setup() {
+	/*uint16_t l_u16DeviceType = 0x0000;*/
+
 	// Init State
 	vichydro_state.lastTimeUpdateMs = 0;
 	vichydro_state.lastAckTestS = 0;
@@ -91,6 +94,10 @@ void vichydro_setup() {
 		gpio_configure(__BANK_A,ILS_Pin,GPIO_INTERRUPT_FALLING);
 		gpio_registerIrqAction(&__ilsBtn_gpio_irq);
 	}
+
+	/*gpio_set(BQ_GE_GPIO_Port, BQ_GE_Pin);
+	vTime_WaitMs(500u);
+	eBQ35100_DeviceTypeGet(&l_u16DeviceType);*/
 }
 
 // OVERRIDE THE CONFIG FUNCTIONS
@@ -101,9 +108,6 @@ itsdk_config_ret_e itsdk_config_app_resetToFactory() {
 	itsdk_config.app.ackDuty = VICHYDRO_CONFIG_ACKDUTY;
 	itsdk_config.app.ackRetry = VICHYDRO_CONFIG_ACKRETRY;
 	itsdk_config.app.sleepDuty = VICHYDRO_CONFIG_SLEEPDUTY;
-
-	/*itsdk_config.app.nbPress = 0u;
-	itsdk_config.app.nbPressTot = 0u;*/
 	return CONFIG_RESTORED_FROM_FACTORY;
 }
 
@@ -119,9 +123,9 @@ void vITflagsProcess(void)
 		log_debug("press total: %d\r\n", itsdk_config.app.nbPressTot);
 
 		/* blink led */
-		HAL_GPIO_WritePin(LED_RED_GPIO_Port, LED_RED_Pin, GPIO_PIN_RESET);
-		while (itsdk_time_get_ms() % 400 == 0);
-		HAL_GPIO_WritePin(LED_RED_GPIO_Port, LED_RED_Pin, GPIO_PIN_SET);
+		LED_RED_ON();
+		vTime_WaitMs(200);
+		LED_RED_OFF();
 	}
 
 	/* User btn (reset) */
@@ -132,9 +136,9 @@ void vITflagsProcess(void)
 		itsdk_config.app.nbPress = 0u;
 
 		/* blink led */
-		HAL_GPIO_WritePin(LED_RED_GPIO_Port, LED_RED_Pin, GPIO_PIN_RESET);
-		while (itsdk_time_get_ms() % 400 == 0);
-		HAL_GPIO_WritePin(LED_RED_GPIO_Port, LED_RED_Pin, GPIO_PIN_SET);
+		LED_RED_ON();
+		vTime_WaitMs(200);
+		LED_RED_OFF();
 	}
 }
 
