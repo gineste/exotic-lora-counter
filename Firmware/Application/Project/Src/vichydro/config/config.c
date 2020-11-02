@@ -24,6 +24,8 @@
 #include <it_sdk/time/time.h>
 #include <it_sdk/eeprom/eeprom.h>
 #include "vichydro/board/led.h"
+#include "vichydro/libraries/timeout.h"
+#include "vichydro/drivers/bq35100.h"
 #include <vichydro/statem/machine.h>
 
 /****************************************************************************************
@@ -95,8 +97,8 @@ void vichydro_setup() {
 		gpio_registerIrqAction(&__ilsBtn_gpio_irq);
 	}
 
-	/*gpio_set(BQ_GE_GPIO_Port, BQ_GE_Pin);
-	vTime_WaitMs(500u);
+	/*HAL_GPIO_WritePin(BQ_GE_GPIO_Port, BQ_GE_Pin, GPIO_PIN_SET);
+	vTime_WaitMs(100u);
 	eBQ35100_DeviceTypeGet(&l_u16DeviceType);*/
 }
 
