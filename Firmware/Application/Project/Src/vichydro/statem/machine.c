@@ -30,6 +30,7 @@
 #include <it_sdk/lorawan/cayenne.h>
 #include <it_sdk/configError.h>
 #include "vichydro/board/led.h"
+#include "vichydro/libraries/timeout.h"
 
 #include "vichydro/statem/machine.h"
 
@@ -149,7 +150,7 @@ uint16_t vichydro_stm_stRun(void * p, uint8_t cState, uint16_t cLoop, uint32_t t
 		vichydro_state.lastMeasureS = 0;
 
 		/* Save values in NVM */
-		eeprom_write(&itsdk_config, sizeof(itsdk_configuration_nvm_t), ITSDK_CONFIGURATION_MNG_VERSION);
+		itsdk_config_flushConfig();
 
 		if ( vichydro_state.connection == VICHYDRO_CONNEXION_JOINED )
 		   return ( VICHYDRO_ST_SEND | STATE_IMMEDIATE_JUMP);
