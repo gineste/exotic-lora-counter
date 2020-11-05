@@ -202,7 +202,7 @@
 // +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
 
-#define ITSDK_WITH_SECURESTORE		__DISABLE								// Enable EEPROM secured storage
+#define ITSDK_WITH_SECURESTORE		__ENABLE								// Enable EEPROM secured storage
 #define ITSDK_SECSTORE_USRBLOCK		0										//  Number of USER BLOCK to allocate (from 0 to 7)
 #define ITSDK_SECSTORE_DEFKEY		{   \
 									  0xC0,0xA5,0x84,0xEB,0x36,0x4F, \
@@ -212,7 +212,7 @@
 #define ITSDK_SECSTORE_CONSOLEKEY   "exotic"								// Default console passwd string (max 15 char)
 
 #define ITSDK_WITH_CONSOLE			__ENABLE								// Enable / Disable the Console feature
-#define ITSDK_CONSOLE_SERIAL		__UART_CUSTOM							// Serial port to be used for console
+#define ITSDK_CONSOLE_SERIAL		__UART_USART1							// Serial port to be used for console
 #define ITSDK_CONSOLE_LINEBUFFER	40										// Max Size of a line in the console. Dropped after.
 #define ITSDK_CONSOLE_EXPIRE_S		300										// After 300 Seconds the console will lock automatically
 #define ITSKD_CONSOLE_COPYRIGHT		"(c) 2020 Exotic Systems\r\n"

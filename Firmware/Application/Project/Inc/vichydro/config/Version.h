@@ -21,15 +21,15 @@
 /************************************************************************
  * Defines
  ************************************************************************/
-#define FW_VERSION   "0.2.1"
+#define FW_VERSION   "0.2.2"
 #define HW_VERSION   "1.A"
 
-#define BUILD_DATE   "2020-11-02"
-#define BUILD_TIME   "17:15:44"
+#define BUILD_DATE   "2020-11-05"
+#define BUILD_TIME   "15:37:10"
 
 #define FW_VERSION_MAJOR	   (0x0)
 #define FW_VERSION_MINOR	   (0x2)
-#define FW_VERSION_REVISION   (0x1)
+#define FW_VERSION_REVISION   (0x2)
 
 #ifdef ITSDK_USER_VERSION
 #undef ITSDK_USER_VERSION
@@ -43,7 +43,7 @@
 #define ITSDK_USER_VERSION_BYTE		(FW_VERSION_MAJOR << 4) | FW_VERSION_MINOR
 
 /* COMMIT HASH */
-#define COMMIT_NUMBER    "f55a122"
+#define COMMIT_NUMBER    "8715599"
 
 /************************************************************************
  * Type definitions

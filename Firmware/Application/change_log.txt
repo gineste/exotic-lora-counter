@@ -1,3 +1,7 @@
+* 0.2.2 *
+- Use configuration console on UART1
+- Configure Lora settings via console
+
 * 0.2.1 *
 - Store values in NVM at SEND instead of every increment to reduce write cycles.
 

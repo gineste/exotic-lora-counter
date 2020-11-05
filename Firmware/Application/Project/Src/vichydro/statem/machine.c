@@ -28,6 +28,7 @@
 #include <it_sdk/eeprom/eeprom.h>
 #include <it_sdk/eeprom/sdk_config.h>
 #include <it_sdk/lorawan/cayenne.h>
+#include <it_sdk/lorawan/lorawan.h>
 #include <it_sdk/configError.h>
 #include "vichydro/board/led.h"
 #include "vichydro/libraries/timeout.h"
