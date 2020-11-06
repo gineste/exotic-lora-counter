@@ -10,34 +10,52 @@
  * of ANY KIND is provided. This heading must NOT be removed from the file.
  *
  */
-#ifndef BQ35100_H_
-#define BQ35100_H_
+#ifndef CONFIG_GLOBALDEFS_H_
+#define CONFIG_GLOBALDEFS_H_
 
 /****************************************************************************************
  * Include Files
  ****************************************************************************************/
 #include <stdint.h>
 
+/* it-sdk */
+#include "it_sdk/logger/logger.h"
+#include "it_sdk/wrappers.h"
+
+/* config */
+#include "vichydro/config/boardConfig.h"
+
 /****************************************************************************************
  * Defines
  ****************************************************************************************/
+#if (USE_DEBUG == 1u)
+	#define SPTK_PRINT(lvl, msg)
+	#define RESET_STYLE()
+	#define PRINT_FAST(p_data)						log_info(p_data)
+	#define PRINT_CUSTOM(p_type, ...)			log_info(p_type, __VA_ARGS__)
+   #define PRINT_DEBUG(p_type, p_data)			log_debug(p_type, p_data)
+   #define PRINT_INFO(p_type, p_data)			log_info(p_type, p_data)
+   #define PRINT_STATE(p_type, p_data)
+   #define PRINT_WARNING(p_type, p_data)		log_warn(p_type, p_data)
+   #define PRINT_ERROR(p_type, p_data)			log_error(p_type, p_data)
+#else
+	#define SPTK_PRINT(lvl, msg)
+	#define RESET_STYLE()
+	#define PRINT_FAST(p_data)
+	#define PRINT_CUSTOM(p_type, ...)
+   #define PRINT_DEBUG(p_type, p_data)
+   #define PRINT_INFO(p_type, p_data)
+   #define PRINT_STATE(p_type, p_data)
+   #define PRINT_WARNING(p_type, p_data)
+   #define PRINT_ERROR(p_type, p_data)
+#endif
 
 /****************************************************************************************
  * Type definitions
  ****************************************************************************************/
-typedef enum _BQ35100_ERROR_ {
-   BQ35100_ERROR_NONE,
-   BQ35100_ERROR_NOT_FOUND,
-   BQ35100_ERROR_COMM,
-   BQ35100_ERROR_BUSY,
-   BQ35100_ERROR_PARAM,
-   BQ35100_ERROR_INIT
-}e_BQ35100_ErrorCode_t;
 
 /****************************************************************************************
  * Public function declarations
  ****************************************************************************************/
-e_BQ35100_ErrorCode_t eBQ35100_Init(void);
-e_BQ35100_ErrorCode_t eBQ35100_DeviceTypeGet(uint16_t * p_pu16DeviceType);
 
-#endif /* BQ35100_H_ */
+#endif /* CONFIG_GLOBALDEFS_H_ */
