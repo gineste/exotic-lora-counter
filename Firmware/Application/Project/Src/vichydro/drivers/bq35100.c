@@ -87,6 +87,24 @@ e_BQ35100_ErrorCode_t eBQ35100_Init(void)
 	return l_eCode;
 }
 
+e_BQ35100_ErrorCode_t eBQ35100_VoltageGet(uint16_t * p_pu16mV)
+{
+	e_BQ35100_ErrorCode_t l_eCode = BQ35100_ERROR_NONE;
+	uint16_t l_u16Data = 0u;
+
+	if(NULL != p_pu16mV)
+	{
+		l_eCode = eRead16BRegister(0x08, &l_u16Data, 1);
+
+		if(BQ35100_ERROR_NONE == l_eCode)
+		{
+			*p_pu16mV = l_u16Data;
+		}
+	}
+
+	return l_eCode;
+}
+
 e_BQ35100_ErrorCode_t eBQ35100_DeviceTypeGet(uint16_t * p_pu16DeviceType)
 {
 	e_BQ35100_ErrorCode_t l_eCode = BQ35100_ERROR_NONE;
@@ -141,6 +159,7 @@ static e_BQ35100_ErrorCode_t eRead16BRegister(uint16_t p_u16RegAdr, uint16_t * p
 	if(NULL != p_up16Value)
 	{
 		l_eI2cCode = i2c_read16BRegister(&hi2c1, BQ35100_NOT_SHIFTED_ADDR, p_u16RegAdr, p_up16Value, p_u16RegSize);
+		vTime_WaitMs(800u);
 
 		if(I2C_OK != l_eI2cCode)
 		{

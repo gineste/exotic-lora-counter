@@ -38,6 +38,7 @@ typedef enum _BQ35100_ERROR_ {
  * Public function declarations
  ****************************************************************************************/
 e_BQ35100_ErrorCode_t eBQ35100_Init(void);
+e_BQ35100_ErrorCode_t eBQ35100_VoltageGet(uint16_t * p_pu16mV);
 e_BQ35100_ErrorCode_t eBQ35100_DeviceTypeGet(uint16_t * p_pu16DeviceType);
 
 #endif /* BQ35100_H_ */
