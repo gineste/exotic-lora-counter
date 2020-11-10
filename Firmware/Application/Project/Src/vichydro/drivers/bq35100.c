@@ -128,6 +128,30 @@ e_BQ35100_ErrorCode_t eBQ35100_DeviceTypeGet(uint16_t * p_pu16DeviceType)
 	return l_eCode;
 }
 
+e_BQ35100_ErrorCode_t eBQ35100_IsReady(uint8_t * p_pu8IsReady)
+{
+	e_BQ35100_ErrorCode_t l_eCode = BQ35100_ERROR_NONE;
+	uint16_t l_u16Data = 0u;
+
+	if(NULL != p_pu8IsReady)
+	{
+		l_eCode = eWriteRegister(0x00, 0x0000);
+
+		if(BQ35100_ERROR_NONE == l_eCode)
+		{
+			vTime_WaitMs(1u);
+			l_eCode = eReadRegister(0x00, &l_u16Data);
+
+			if(BQ35100_ERROR_NONE == l_eCode)
+			{
+				*p_pu8IsReady = ((l_u16Data & 0x0080) == 0x80) ? 1u : 0u;
+			}
+		}
+	}
+
+	return l_eCode;
+}
+
 /****************************************************************************************
  * Private functions
  ****************************************************************************************/

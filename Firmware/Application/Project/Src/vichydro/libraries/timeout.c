@@ -58,6 +58,21 @@
     }
  }
  
+ void vTime_WaitUs(uint32_t p_u32Timeout)
+ {
+	 uint64_t l_u64TimeUs = itsdk_time_get_us();
+    uint32_t l_u32TimerAlarm = p_u32Timeout + l_u64TimeUs;
+
+    if(p_u32Timeout > 0)
+    {
+       do
+       {
+          /* Wait */
+      	 l_u64TimeUs = itsdk_time_get_us();
+       }while(l_u32TimerAlarm > l_u64TimeUs);
+    }
+ }
+
  uint32_t u32Time_getMs(void)
  {
     return (uint32_t) itsdk_time_get_ms();
