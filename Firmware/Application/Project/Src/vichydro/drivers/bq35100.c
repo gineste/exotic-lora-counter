@@ -52,8 +52,8 @@
 /****************************************************************************************
  * Private function declarations
  ****************************************************************************************/
-static e_BQ35100_ErrorCode_t eWrite16BRegister(uint16_t  p_u16RegAdr, uint16_t  p_u16Value, uint16_t  p_u16RegSize);
-static e_BQ35100_ErrorCode_t eRead16BRegister(uint16_t  p_u16RegAdr, uint16_t  * p_pu16Value, uint16_t  p_u16RegSize);
+static e_BQ35100_ErrorCode_t eWriteRegister(uint16_t p_u16RegAdr, uint16_t p_u16Value);
+static e_BQ35100_ErrorCode_t eReadRegister(uint16_t p_u16RegAdr, uint16_t * p_pu16Value);
 
 /****************************************************************************************
  * Variable declarations
@@ -94,7 +94,7 @@ e_BQ35100_ErrorCode_t eBQ35100_VoltageGet(uint16_t * p_pu16mV)
 
 	if(NULL != p_pu16mV)
 	{
-		l_eCode = eRead16BRegister(0x08, &l_u16Data, 1);
+		l_eCode = eReadRegister(0x08, &l_u16Data);
 
 		if(BQ35100_ERROR_NONE == l_eCode)
 		{
@@ -112,11 +112,11 @@ e_BQ35100_ErrorCode_t eBQ35100_DeviceTypeGet(uint16_t * p_pu16DeviceType)
 
 	if(NULL != p_pu16DeviceType)
 	{
-		l_eCode = eWrite16BRegister(BQ35100_MAC, BQ35100_DEVICE_TYPE_REG, 1);
+		l_eCode = eWriteRegister(BQ35100_MAC, BQ35100_DEVICE_TYPE_REG);
 
 		if(BQ35100_ERROR_NONE == l_eCode)
 		{
-			l_eCode = eRead16BRegister(BQ35100_MAC_DATA, &l_u16Data, 1);
+			l_eCode = eReadRegister(BQ35100_MAC_DATA, &l_u16Data);
 
 			if(BQ35100_ERROR_NONE == l_eCode)
 			{
@@ -131,13 +131,17 @@ e_BQ35100_ErrorCode_t eBQ35100_DeviceTypeGet(uint16_t * p_pu16DeviceType)
 /****************************************************************************************
  * Private functions
  ****************************************************************************************/
-static e_BQ35100_ErrorCode_t eWrite16BRegister(uint16_t p_u16RegAdr, uint16_t p_u16Value, uint16_t p_u16RegSize)
+static e_BQ35100_ErrorCode_t eWriteRegister(uint16_t p_u16RegAdr, uint16_t p_u16Value)
 {
 	e_BQ35100_ErrorCode_t l_eCode = BQ35100_ERROR_NONE;
 	_I2C_Status l_eI2cCode = I2C_OK;
+	uint8_t l_au8Bytes[2u];
 
-	l_eI2cCode = i2c_write16BRegister(&hi2c1,BQ35100_NOT_SHIFTED_ADDR, p_u16RegAdr, p_u16Value, p_u16RegSize);
-	vTime_WaitMs(10u); /* Next read values are wrong if no delay here - strange */
+	l_au8Bytes[0] = p_u16Value & 0xFF;
+	l_au8Bytes[1] = p_u16Value >> 8;
+
+	l_eI2cCode = i2c_memWrite(&hi2c1, BQ35100_NOT_SHIFTED_ADDR, p_u16RegAdr, 8u, l_au8Bytes, 2u);
+	vTime_WaitMs(5u);
 
 	if(I2C_OK != l_eI2cCode)
 	{
@@ -151,28 +155,23 @@ static e_BQ35100_ErrorCode_t eWrite16BRegister(uint16_t p_u16RegAdr, uint16_t p_
 	return l_eCode;
 }
 
-static e_BQ35100_ErrorCode_t eRead16BRegister(uint16_t p_u16RegAdr, uint16_t * p_up16Value, uint16_t p_u16RegSize)
+static e_BQ35100_ErrorCode_t eReadRegister(uint16_t p_u16RegAdr, uint16_t * p_pu16Value)
 {
 	e_BQ35100_ErrorCode_t l_eCode = BQ35100_ERROR_NONE;
 	_I2C_Status l_eI2cCode = I2C_OK;
+	uint8_t l_au8Bytes[2u];
 
-	if(NULL != p_up16Value)
+	l_eI2cCode = i2c_memRead(&hi2c1, BQ35100_NOT_SHIFTED_ADDR, p_u16RegAdr, 8u, l_au8Bytes, 2u);
+	vTime_WaitMs(5u);
+
+	if(I2C_OK != l_eI2cCode)
 	{
-		l_eI2cCode = i2c_read16BRegister(&hi2c1, BQ35100_NOT_SHIFTED_ADDR, p_u16RegAdr, p_up16Value, p_u16RegSize);
-		vTime_WaitMs(800u);
-
-		if(I2C_OK != l_eI2cCode)
-		{
-			l_eCode = BQ35100_ERROR_COMM;
-		}
-		else
-		{
-			l_eCode = BQ35100_ERROR_NONE;
-		}
+		l_eCode = BQ35100_ERROR_COMM;
 	}
 	else
 	{
-		l_eCode = BQ35100_ERROR_PARAM;
+		*p_pu16Value = l_au8Bytes[0u] + (uint16_t)l_au8Bytes[1u]*256u;
+		l_eCode = BQ35100_ERROR_NONE;
 	}
 
 	return l_eCode;
