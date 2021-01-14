@@ -30,11 +30,4 @@
 		<nature>org.eclipse.cdt.managedbuilder.core.ScannerConfigNature</nature>
 		<nature>com.st.stm32cube.ide.mcu.MCUCubeIdeServicesRevAev2ProjectNature</nature>
 	</natures>
-	<linkedResources>
-		<link>
-			<name>stm32-it-sdk</name>
-			<type>2</type>
-			<location>C:/Projects/03-Git/vichydro/stm32-it-sdk</location>
-		</link>
-	</linkedResources>
 </projectDescription>

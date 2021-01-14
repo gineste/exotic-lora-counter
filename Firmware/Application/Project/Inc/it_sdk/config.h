@@ -29,6 +29,7 @@
 #define IT_SDK_CONFIG_H_
 
 #include <it_sdk/config_defines.h>
+#include "vichydro/config/boardConfig.h"
 
 // ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 // | SDK SETTING                   | USER SELECTED VALUE                  | SETTING DESCRIPTION                   |
@@ -54,8 +55,8 @@
 #define ITSDK_RTC_CLKFREQ			32768									// RTC clock source frequency
 #define ITSDK_CLK_BEST_SOURCE		__CLK_BEST_SRC_RTC						// The RTC is the most accurate clk source to ADJUST Others
 #define ITSDK_CLK_CORRECTION		1000									// correct clock with 1200 o/oo (+20%) of the ticks (used when clk_adjust = 0 or for RTC when CLK_BEST_SRC_RTC)
-#define ITSDK_WITH_ADC				__ADC_DISABLE							// Use of Adc (includes the structures)
-#define ITSDK_ADC_OPTIMIZE_SIZE		__DISABLE								// When __ENABLE adc code is optimized for code size (when relevant)
+#define ITSDK_WITH_ADC				__ADC_ENABLED							// Use of Adc (includes the structures)
+#define ITSDK_ADC_OPTIMIZE_SIZE		__ENABLE								// When __ENABLE adc code is optimized for code size (when relevant)
 #define ITSDK_ADC1_PIN				54										// Map the channel for ADC on PIN 14 (PA0)
 #define ITSDK_ADC_OVERSAMPLING		16										// Number of ADC read time before averaging
 #define ITSDK_VDD_MV				3300									// VDD value in mV
@@ -80,9 +81,15 @@
 #define ITSDK_CORE_CLKFREQ			32000000								// Core Frequency of the chip
 #define ITSDK_WITH_EXPERIMENTAL     __DISABLE 								// Activate some experimental code under review, basically should always be __DISABLE
 
+#if (USE_DEBUG == 1u)
+#define ITSDK_LOGGER_CONF			LOGGER_CONFIG_DEBUGLNK_MASK									// error->info level on serial1 => USART2 (see logger.c)
+                                                                            // File | Serial1 | Serial2 | Debug
+#define ITSDK_LOGGER_WITH_SEG_RTT	__ENABLE								// enable SEGGER RTT trace driver for DEBUG interface
+#else
 #define ITSDK_LOGGER_CONF			LOGGER_CONFIG_SERIAL1_MASK									// error->info level on serial1 => USART2 (see logger.c)
                                                                             // File | Serial1 | Serial2 | Debug
 #define ITSDK_LOGGER_WITH_SEG_RTT	__DISABLE								// enable SEGGER RTT trace driver for DEBUG interface
+#endif
 #define ITSDK_LOGGER_MODULE			( \
 									  __LOG_MOD_NONE		  \
 									| __LOG_MOD_LOWPOWER    \

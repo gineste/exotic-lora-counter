@@ -30,6 +30,8 @@
 #include <it_sdk/configNvm.h>
 #include <it_sdk/statemachine/statemachine.h>
 #include <it_sdk/sched/scheduler.h>
+
+#include "vichydro/config/boardConfig.h"
 #include <vichydro/statem/machine.h>
 
 /****************************************************************************************
@@ -57,7 +59,9 @@ void project_setup ()
 	SX1276InitLowPower();
 	itdt_sched_registerSched(VICHYDRO_CONFIG_TIME_BASE_S*1000,ITSDK_SCHED_CONF_IMMEDIATE, &task);
 
-	/*lowPower_disable();*/
+#if (USE_DEBUG == 1u)
+	lowPower_disable();
+#endif
 }
 
 /**
