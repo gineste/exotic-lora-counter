@@ -1,3 +1,3 @@
 [submodule "Firmware/Application/Project/stm32-it-sdk"]
 	path = Firmware/Application/Project/stm32-it-sdk
-url=https://gitlab.com/exoticsystems/libs/ext/disk91/stm32-it-sdk.git
+url=git@github.com:exotic-systems/stm32-it-sdk.git
